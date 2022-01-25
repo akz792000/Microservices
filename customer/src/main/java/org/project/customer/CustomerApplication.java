@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients(basePackages = "org.project.clients")
+@EnableFeignClients(basePackages = "org.project.clients.fraud")
 @PropertySources({
         @PropertySource("classpath:clients-${spring.profiles.active}.properties")
 })
