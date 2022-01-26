@@ -7,9 +7,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "org.project.customer",
+                "org.project.amqp",
+        }
+)
 @EnableEurekaClient
-@EnableFeignClients(basePackages = "org.project.clients.fraud")
+@EnableFeignClients(basePackages = "org.project.clients")
 @PropertySources({
         @PropertySource("classpath:clients-${spring.profiles.active}.properties")
 })
