@@ -1,13 +1,13 @@
 server:
-  port: 8080
+  port: 8082
 
 spring:
   profiles:
     active: default
   application:
-    name: customer
+    name: notification
   datasource:
-    url: jdbc:postgresql://localhost:5432/customer
+    url: jdbc:postgresql://localhost:5432/notification
     username: admin
     password: admin
   jpa:
@@ -34,3 +34,11 @@ eureka:
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
     preferIpAddress: true
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key

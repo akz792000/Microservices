@@ -1,8 +1,10 @@
 package org.project.customer;
 
 import lombok.AllArgsConstructor;
+import org.project.amqp.RabbitMQMessageProducer;
 import org.project.clients.fraud.FraudCheckResponse;
 import org.project.clients.fraud.FraudClient;
+import org.project.clients.notification.NotificationRequest;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -11,6 +13,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
     //private final RestTemplate restTemplate;
 
     public void registerCustomer(CustomerRegistrationRequest request) {
@@ -46,6 +49,18 @@ public class CustomerService {
         }
 
         // todo: send notification
+        NotificationRequest notificationRequest = new NotificationRequest(
+                customer.getId(),
+                customer.getEmail(),
+                String.format("Hi %s, welcome ...",
+                        customer.getFirstName())
+        );
+
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
     }
 
 }
